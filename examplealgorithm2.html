@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Fibonacci and Padoran Sequence Calculator</title>
+</head>
+
+<body>
+    <h1>Fibonacci and Padoran Sequence Calculator</h1>
+    <p>Enter a number (n) to calculate the sequences:</p>
+    <input type="number" id="inputNumber" min="0" step="1" />
+    <button onclick="calculateSequences()">Calculate</button>
+
+    <h2>Results:</h2>
+    <div id="fibonacciResult"></div>
+    <div id="padoranResult"></div>
+
+    <script>
+        function fibonacciNonRecursive(n) {
+            if (n <= 0) return [];
+            else if (n == 1) return [0];
+            else if (n == 2) return [0, 1];
+
+            let fibonacciSeq = [0, 1];
+            for (let i = 2; i < n; i++) {
+                let nextFib = fibonacciSeq[i - 1] + fibonacciSeq[i - 2];
+                fibonacciSeq.push(nextFib);
+            }
+            return fibonacciSeq;
+        }
+
+        function fibonacciRecursive(n) {
+            if (n <= 0) return 0;
+            else if (n == 1) return 1;
+            else if (n == 2) return 1;
+            else return fibonacciRecursive(n - 1) + fibonacciRecursive(n - 2);
+        }
+
+        function padoranNonRecursive(n) {
+            if (n <= 0) return [];
+            else if (n == 1) return [1];
+            else if (n == 2) return [1, 1];
+            else if (n == 3) return [1, 1, 1];
+
+            let padoranSeq = [1, 1, 1];
+            for (let i = 3; i < n; i++) {
+                let nextPadoran = padoranSeq[i - 2] + padoranSeq[i - 3];
+                padoranSeq.push(nextPadoran);
+            }
+            return padoranSeq;
+        }
+
+        function padoranRecursive(n) {
+            if (n <= 0) return 1;
+            else if (n == 1) return 1;
+            else if (n == 2) return 1;
+            else return padoranRecursive(n - 2) + padoranRecursive(n - 3);
+        }
+
+        function calculateSequences() {
+            const n = parseInt(document.getElementById("inputNumber").value);
+
+            const fibonacciNonRecSeq = fibonacciNonRecursive(n);
+            const fibonacciRecSeq = Array.from({ length: n }, (v, i) => fibonacciRecursive(i));
+
+            const padoranNonRecSeq = padoranNonRecursive(n);
+            const padoranRecSeq = Array.from({ length: n }, (v, i) => padoranRecursive(i));
+
+            document.getElementById("fibonacciResult").innerText =
+                "Fibonacci Non-Recursive: " + fibonacciNonRecSeq.join(", ");
+            document.getElementById("fibonacciResult").innerText +=
+                "\nFibonacci Recursive: " + fibonacciRecSeq.join(", ");
+
+            document.getElementById("padoranResult").innerText =
+                "Padoran Non-Recursive: " + padoranNonRecSeq.join(", ");
+            document.getElementById("padoranResult").innerText +=
+                "\nPadoran Recursive: " + padoranRecSeq.join(", ");
+        }
+    </script>
+</body>
+
+</html>
